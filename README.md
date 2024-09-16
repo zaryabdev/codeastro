@@ -1,6 +1,6 @@
-# Agathist Website
+# Codeastro Website
 
-This is the marketing website for Agathist.
+This is the marketing website for Codeastro.
 
 ## Tech
 
