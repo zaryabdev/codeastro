@@ -1,6 +1,6 @@
+import type { Config } from '@netlify/functions'
 import Airtable from 'airtable'
 import nodemailer from 'nodemailer'
-import type { Config } from '@netlify/functions'
 
 export const config: Config = {
   method: 'POST',
@@ -54,20 +54,20 @@ function sendEmail(data: Data) {
   })
 
   return transporter.sendMail({
-    from: 'hello@agath.ist',
-    to: 'hello@agath.ist',
+    from: 'zaryabdev404@gmail.com',
+    to: 'zaryabdev404@gmail.com',
     subject: 'New Project Submission',
     text: formatEmail(data),
   })
 }
 
-function addToAirtable(data: Data) {
-  const base = new Airtable({ apiKey: process.env.AIRTABLE_TOKEN }).base(
-    process.env.AIRTABLE_BASE_ID as string
-  )
+// function addToAirtable(data: Data) {
+//   const base = new Airtable({ apiKey: process.env.AIRTABLE_TOKEN }).base(
+//     process.env.AIRTABLE_BASE_ID as string
+//   )
 
-  return base(process.env.AIRTABLE_TABLE_KEY as string).create(data)
-}
+//   return base(process.env.AIRTABLE_TABLE_KEY as string).create(data)
+// }
 
 export default async function (req: Request) {
   const data = await req.json()
@@ -75,7 +75,8 @@ export default async function (req: Request) {
 
   if (!isValid) return new Response('failure', { status: 400 })
 
-  return await Promise.all([sendEmail(data), addToAirtable(data)])
+  // return await Promise.all([sendEmail(data), addToAirtable(data)])
+  return await Promise.all([sendEmail(data)])
     .then(() => {
       return new Response('success', { status: 200 })
     })
