@@ -1,0 +1,102 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro'
+import { getCollection } from 'astro:content'
+import { byEntryDate, formatPostDate } from '../../utils'
+import Layout from '../../layouts/Layout.astro'
+import PageStandard from '../../layouts/PageStandard.astro'
+import Container from '../../components/Container.astro'
+import GradientText from '../../components/GradientText.astro'
+import Link from '../../components/Link.astro'
+import PostH3 from '../../components/PostH3.astro'
+import PostH4 from '../../components/PostH4.astro'
+import { PROJECT_TYPE_TO_LABEL } from '../../constants'
+import ListUnordered from '../../components/ListUnordered.astro'
+
+export const getStaticPaths = (async () => {
+  const projectEntries = await getCollection('projects', (entry) => {
+    // If we are in PROD, hide the unpublished technologies
+    if (import.meta.env.PROD) return entry.data.published
+
+    return true
+  })
+  const projectsSorted = projectEntries.toSorted(byEntryDate)
+
+  const clients = await getCollection('clients')
+
+  return projectsSorted.map((entry) => {
+    return {
+      params: { slug: entry.slug },
+      props: {
+        entry,
+        project: {
+          id: entry.id,
+          ...entry.data,
+          client: clients.find((c) => c.id === entry.data.client?.id)?.data,
+        },
+      },
+    }
+  })
+}) satisfies GetStaticPaths
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>
+
+const { entry, project } = Astro.props
+const { client, date, description, published, title, type } = project
+const { Content } = await entry.render()
+
+const formattedDate = formatPostDate(date)
+---
+
+<Layout description={description} title={`${title} | Projects | Agathist`}>
+  <PageStandard>
+    <Container>
+      {
+        !published && (
+          <div class="my-4 bg-yellow-500 p-2 text-black">
+            This project is not published and is only visible in development.
+          </div>
+        )
+      }
+
+      <article class="flex flex-col gap-8">
+        <div class="flex flex-col gap-2 lg:w-3/4">
+          <GradientText>
+            <h2
+              class="text-4xl font-bold leading-tight sm:text-6xl sm:leading-tight"
+            >
+              {title}
+            </h2>
+          </GradientText>
+
+          <div class="flex flex-wrap gap-8">
+            <div class="italic text-gray-200">
+              {formattedDate}
+            </div>
+
+            <div>
+              <span class="font-bold">Project type:</span>
+              <span class="text-gray-200">{PROJECT_TYPE_TO_LABEL[type]}</span>
+            </div>
+
+            {
+              client && (
+                <div>
+                  <span class="font-bold">Client:</span>
+                  <span class="text-gray-200">{client.name}</span>
+                </div>
+              )
+            }
+          </div>
+        </div>
+
+        <div
+          class="post flex max-w-prose flex-col gap-8 leading-chill lg:text-xl lg:leading-chill"
+        >
+          <Content
+            components={{ a: Link, h3: PostH3, h4: PostH4, ul: ListUnordered }}
+          />
+        </div>
+      </article>
+    </Container>
+  </PageStandard>
+</Layout>

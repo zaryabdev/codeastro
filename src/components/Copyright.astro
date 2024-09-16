@@ -1,0 +1,14 @@
+---
+const buildYear = new Date().getFullYear().toString()
+---
+
+<span>
+  &copy;<span id="copyright">{buildYear}</span>
+</span>
+
+<script>
+  const clientYear = new Date().getFullYear().toString()
+  const el = document.getElementById('copyright')
+
+  if (el) el.innerText = clientYear
+</script>

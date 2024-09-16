@@ -1,0 +1,30 @@
+---
+import Link from './Link.astro'
+
+type Crumb = {
+  href?: string
+  text: string
+}
+
+type Props = {
+  items: Crumb[]
+}
+
+const { items } = Astro.props
+---
+
+<div class="flex gap-2 text-lg">
+  {
+    items.map((item, idx) => (
+      <div class="flex items-center gap-2">
+        {idx !== 0 && <span>&raquo;</span>}
+
+        {item.href ? (
+          <Link href={item.href}>{item.text}</Link>
+        ) : (
+          <span>{item.text}</span>
+        )}
+      </div>
+    ))
+  }
+</div>

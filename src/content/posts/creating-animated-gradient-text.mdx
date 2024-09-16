@@ -1,0 +1,165 @@
+---
+date: '2024-03-06T03:55:35.449Z'
+author: 'kyle-shevlin'
+title: 'Creating Animated Gradient Text'
+description: 'Learn how to create an animated gradient text effect like our logo.'
+---
+
+A lot of people have commented they like the animated gradient text on our home page, so I thought a great first blog post could be one that teaches you how to make that effect for yourself.
+
+First, get yourself some text in an element set to `display: inline-block`. It's important that we use `inline-block` because we need to add a background gradient to our text (which requires `block` level), but we only want that background to be the width of our text (which requires `inline` level).
+
+I'll use plain CSS so anyone can follow along, but you should be able to translate the concepts into whatever styling language or tool you prefer.
+
+```html
+<div class="gradient-text">Gradient text is awesome!</div>
+```
+
+```css
+.gradient-text {
+  display: inline-block;
+  /* Let's bump the font size and weight up a bit, too! */
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+```
+
+That will look like this:
+
+<div class="flex bg-slate-800 p-8">
+  <div class="inline-block text-2xl font-bold md:text-4xl">
+    Gradient text is awesome!
+  </div>
+</div>
+
+Next, add a background gradient of your choosing. I'll use the Agathist one.
+
+```css
+.gradient-text {
+  background-image: linear-gradient(to right, #f43f5e, #ec4899, #fb923c);
+  display: inline-block;
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+```
+
+<div class="flex bg-slate-800 p-8">
+  <div class="inline-block bg-gradient-to-r from-rose-500 via-pink-500 to-orange-400 text-2xl font-bold md:text-4xl">
+    Gradient text is awesome!
+  </div>
+</div>
+
+Next, we're going to make the `color` of the text `transparent`. Bye bye, text! Don't worry, we'll bring it back in the next step.
+
+```css
+.gradient-text {
+  background-image: linear-gradient(to right, #f43f5e, #ec4899, #fb923c);
+  color: transparent;
+  display: inline-block;
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+```
+
+<div class="flex bg-slate-800 p-8">
+  <div class="inline-block bg-gradient-to-r from-rose-500 via-pink-500 to-orange-400 text-2xl font-bold text-transparent md:text-4xl">
+    Gradient text is awesome!
+  </div>
+</div>
+
+In order to bring the text back, we're going to set `background-clip` to `text`, like so:
+
+```css
+.gradient-text {
+  background-clip: text;
+  background-image: linear-gradient(to right, #f43f5e, #ec4899, #fb923c);
+  color: transparent;
+  display: inline-block;
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+```
+
+<div class="flex bg-slate-800 p-8">
+  <div class="inline-block bg-gradient-to-r from-rose-500 via-pink-500 to-orange-400 bg-clip-text text-2xl font-bold text-transparent md:text-4xl">
+    Gradient text is awesome!
+  </div>
+</div>
+
+And check that out! Our background has been clipped to the shape of our text, and because the text is `transparent`, we see the background gradient behind it. Isn't that cool?
+
+Now, let's take it up a notch and animate the background. To achieve the look of our logo, we're going to increase the `background-size` of our text, and then animate the `background-position` back and forth. Let's start by changing the size.
+
+Increasing the `background-size` _stretches_ the gradient. Notice that the orange color appears to be missing below.
+
+```css
+.gradient-text {
+  background-clip: text;
+  background-image: linear-gradient(to right, #f43f5e, #ec4899, #fb923c);
+  background-size: 200%;
+  color: transparent;
+  display: inline-block;
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+```
+
+<div class="flex bg-slate-800 p-8">
+  <div class="inline-block bg-gradient-to-r from-rose-500 via-pink-500 to-orange-400 bg-[length:200%] bg-clip-text text-2xl font-bold text-transparent md:text-4xl">
+    Gradient text is awesome!
+  </div>
+</div>
+
+It's not that the orange color is missing, it's that the gradient has been stretched horizontally so far that our text no longer clips that color. If we temporarily move the `background-position` to `100%` horizontally, we can see the orange color again, but we won't see the rose color that was on the left.
+
+```css
+.gradient-text {
+  background-clip: text;
+  background-image: linear-gradient(to right, #f43f5e, #ec4899, #fb923c);
+  background-position: 100% 0%;
+  background-size: 200%;
+  color: transparent;
+  display: inline-block;
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+```
+
+<div class="flex bg-slate-800 p-8">
+  <div class="inline-block bg-gradient-to-r from-rose-500 via-pink-500 to-orange-400 bg-[length:200%] bg-clip-text bg-right text-2xl font-bold text-transparent md:text-4xl">
+    Gradient text is awesome!
+  </div>
+</div>
+
+Now, we can only see the pink and orange colors. Let's remove our `background-position` rule here and instead move it to an animation with `@keyframes`. This will allow us to set the `animation` property and move the background back and forth.
+
+```css
+.gradient-text {
+  animation: move-bg 3s ease infinite;
+  background-clip: text;
+  background-image: linear-gradient(to right, #f43f5e, #ec4899, #fb923c);
+  background-size: 200%;
+  color: transparent;
+  display: inline-block;
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+
+@keyframes move-bg {
+  0%,
+  100% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 0%;
+  }
+}
+```
+
+<div class="flex bg-slate-800 p-8">
+  <div class="inline-block animate-backAndForth bg-gradient-to-r from-rose-500 via-pink-500 to-orange-400 bg-[length:200%] bg-clip-text text-2xl font-bold text-transparent md:text-4xl">
+    Gradient text is awesome!
+  </div>
+</div>
+
+And there's the final result! Play around with `background-size`, the `animation-duration`, or even the type of gradient and see what you can achieve with this technique.

@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '../../layouts/Layout.astro'
+import PageStandard from '../../layouts/PageStandard.astro'
+import Container from '../../components/Container.astro'
+import PageHeading from '../../components/PageHeading.astro'
+import { byEntryDate, formatPostDate } from '../../utils'
+
+const postEntries = await getCollection('posts')
+const posts = postEntries.toSorted(byEntryDate)
+---
+
+<Layout title="Blog | Agathist">
+  <PageStandard>
+    <Container>
+      <div class="flex flex-col gap-8">
+        <PageHeading>Blog</PageHeading>
+
+        <p class="max-w-prose text-2xl">
+          Check out our articles about the projects we're working on and lessons
+          we've learned along the way.
+        </p>
+
+        <div class="flex flex-col gap-4">
+          {
+            posts.length ? (
+              posts.map((entry) => (
+                <a
+                  class="-ml-8 block rounded p-8 transition-colors hover:bg-white/10 lg:w-3/4"
+                  href={`/blog/${entry.slug}`}
+                >
+                  <div class="flex flex-col gap-4">
+                    <div class="text-sm text-gray-300">
+                      {formatPostDate(entry.data.date)}
+                    </div>
+
+                    <div class="text-3xl font-bold text-pink-500">
+                      {entry.data.title}
+                    </div>
+
+                    <div class="text-2xl text-gray-200">
+                      {entry.data.description}
+                    </div>
+                  </div>
+                </a>
+              ))
+            ) : (
+              <div>No posts yet!</div>
+            )
+          }
+        </div>
+      </div>
+    </Container>
+  </PageStandard>
+</Layout>

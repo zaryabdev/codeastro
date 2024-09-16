@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '../../layouts/Layout.astro'
+import PageStandard from '../../layouts/PageStandard.astro'
+import Container from '../../components/Container.astro'
+import PageHeading from '../../components/PageHeading.astro'
+import { formatPostDate } from '../../utils'
+import { PROJECT_TYPE_TO_LABEL } from '../../constants'
+
+const entries = await getCollection('projects', (entry) => {
+  // If we are in PROD, hide the unpublished technologies
+  if (import.meta.env.PROD) return entry.data.published
+
+  return true
+})
+const projects = entries.map((entry) => ({
+  ...entry,
+}))
+---
+
+<Layout title="Projects | Agathist">
+  <PageStandard>
+    <Container>
+      <div class="flex flex-col gap-8">
+        <PageHeading>Projects</PageHeading>
+
+        <p class="max-w-prose text-2xl">
+          Check out our most recent client and open source projects.
+        </p>
+
+        <div class="flex flex-col gap-4">
+          {
+            projects.length ? (
+              projects.map((entry) => {
+                const { data, slug } = entry
+                const { date, description, published, title, type } = data
+
+                return (
+                  <a
+                    class="-ml-8 block rounded p-8 transition-colors hover:bg-white/10 lg:w-3/4"
+                    href={`/projects/${slug}`}
+                  >
+                    <div class="flex flex-col gap-4">
+                      {!published && (
+                        <div class="flex">
+                          <div class="bg-yellow-500 p-1 text-xs text-black">
+                            Unpublished
+                          </div>
+                        </div>
+                      )}
+
+                      <div class="text-sm text-gray-300">
+                        {formatPostDate(date)}
+                      </div>
+
+                      <div class="text-3xl font-bold text-pink-500">
+                        {title}
+                      </div>
+
+                      {description && (
+                        <div class="text-xl text-gray-200">{description}</div>
+                      )}
+
+                      <div class="flex gap-2">
+                        <div class="text-gray-200">Project type:</div>
+                        <div class="text-pink-500">
+                          {PROJECT_TYPE_TO_LABEL[type]}
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                )
+              })
+            ) : (
+              <div>No projects yet!</div>
+            )
+          }
+        </div>
+      </div>
+    </Container>
+  </PageStandard>
+</Layout>

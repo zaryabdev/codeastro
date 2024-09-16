@@ -1,0 +1,84 @@
+---
+import { TOP_LEVEL_NAV_ITEMS } from '../constants'
+
+const { pathname } = new URL(Astro.request.url)
+
+const links = TOP_LEVEL_NAV_ITEMS
+  // Contact page is handled separately, so filter it out
+  .filter((item) => item.href !== '/contact')
+  .map((link) => ({
+    ...link,
+    isCurrentPage: pathname.startsWith(link.href),
+  }))
+---
+
+<div class="relative" id="nav-container">
+  <nav
+    class="absolute right-0 top-full mt-4 hidden bg-slate-800 p-6 lg:static lg:mt-0 lg:block lg:bg-transparent lg:p-0 lg:py-3"
+    id="main-nav"
+  >
+    <ul class="items-right flex flex-col gap-6 lg:flex-row lg:items-baseline">
+      {
+        links.map((link) => (
+          <li class="text-right lg:text-left">
+            <a
+              aria-label={link.text}
+              class={`inline-block border-y-4 border-transparent p-1 text-sm uppercase tracking-widest hover:bg-pink-500 ${
+                link.isCurrentPage && 'border-b-pink-500'
+              }`}
+              href={link.href}
+            >
+              {link.text}
+            </a>
+          </li>
+        ))
+      }
+
+      <li class="mt-2 lg:ml-4 lg:mt-0">
+        <a
+          class="rounded-full bg-rose-400 px-6 py-2 text-sm uppercase tracking-widest text-white transition-colors hover:bg-pink-500"
+          href="/contact"
+        >
+          Contact&nbsp;Us
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <button
+    class="group flex flex-col gap-1 rounded border border-gray-200 p-2 transition-all hover:bg-gray-200 lg:hidden"
+    id="nav-toggle"
+  >
+    {
+      [1, 2, 3].map(() => (
+        <div class="h-[2px] w-4 bg-gray-200 transition-all group-hover:bg-slate-900" />
+      ))
+    }
+  </button>
+</div>
+
+<script>
+  const navContainer = document.getElementById('nav-container')
+  const mainNav = document.getElementById('main-nav')
+  const navToggle = document.getElementById('nav-toggle')
+
+  /**
+   * Toggle the visibility of the main nav
+   */
+  navToggle?.addEventListener('click', () => {
+    mainNav?.classList.toggle('hidden')
+  })
+
+  /**
+   * If a click occurs outside the navContainer, close it
+   */
+  document.addEventListener('click', (e) => {
+    if (e.target === null) return
+
+    const wasClickedInsideNav = navContainer?.contains(e.target as Node)
+
+    if (!wasClickedInsideNav) {
+      mainNav?.classList.add('hidden')
+    }
+  })
+</script>

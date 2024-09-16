@@ -1,0 +1,33 @@
+---
+import { Icon } from 'astro-icon/components'
+import { getCollection } from 'astro:content'
+
+const techs = await getCollection('technologies')
+const sortedTechs = techs.toSorted((a, b) => a.data.order - b.data.order)
+---
+
+<ul class="flex flex-wrap items-end justify-evenly gap-20">
+  {
+    sortedTechs.map((entry) => {
+      const { data } = entry
+      const { name, iconName } = data
+
+      return (
+        <li class="shrink grow basis-1/5">
+          <a
+            class="group flex flex-col items-center gap-4"
+            href={`/technology/${entry.slug}`}
+          >
+            <Icon
+              class="h-24 w-24 text-rose-400 transition-colors group-hover:text-pink-500 lg:h-28 lg:w-28"
+              name={iconName}
+              title={`${name} logo`}
+            />
+
+            <div class="text-center text-xl">{name}</div>
+          </a>
+        </li>
+      )
+    })
+  }
+</ul>

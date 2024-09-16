@@ -1,0 +1,67 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { getCollection, type CollectionEntry } from 'astro:content'
+import Layout from '../../layouts/Layout.astro'
+import PageStandard from '../../layouts/PageStandard.astro'
+import Breadcrumbs from '../../components/Breadcrumbs.astro'
+import Container from '../../components/Container.astro'
+import GradientText from '../../components/GradientText.astro'
+import Link from '../../components/Link.astro'
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const services = await getCollection(
+    'services',
+    (entry) => entry.data.published
+  )
+
+  return services.map((entry) => ({
+    params: { slug: entry.slug },
+    props: {
+      entry,
+    },
+  }))
+}
+
+interface Props {
+  entry: CollectionEntry<'services'>
+}
+
+const props = Astro.props
+const { entry } = props
+const { title } = entry.data
+const { Content } = await entry.render()
+---
+
+<Layout title={`${title} | Services | Agathist`}>
+  <PageStandard>
+    <Container>
+      <article class="flex flex-col gap-8">
+        <Breadcrumbs
+          items={[
+            {
+              href: '/services',
+              text: 'Services',
+            },
+            {
+              text: title,
+            },
+          ]}
+        />
+
+        <div class="lg:w-3/4">
+          <GradientText>
+            <h2 class="text-6xl font-bold leading-tight">
+              {title}
+            </h2>
+          </GradientText>
+        </div>
+
+        <div
+          class="post flex max-w-prose flex-col gap-8 leading-relaxed lg:text-xl lg:leading-relaxed"
+        >
+          <Content components={{ a: Link }} />
+        </div>
+      </article>
+    </Container>
+  </PageStandard>
+</Layout>

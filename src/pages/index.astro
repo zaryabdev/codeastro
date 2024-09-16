@@ -1,0 +1,257 @@
+---
+import Banner from '../components/Banner.astro'
+import { ContactUsForm } from '../components/ContactUsForm.tsx'
+import Container from '../components/Container.astro'
+import Services from '../components/Services.astro'
+import Link from '../components/Link.astro'
+import TechExpertise from '../components/TechExpertise.astro'
+import Layout from '../layouts/Layout.astro'
+import { getCollection } from 'astro:content'
+
+const clientsEntries = await getCollection(
+  'clients',
+  (entry) => entry.data.published
+)
+const clients = clientsEntries
+  .map((entry) => entry.data)
+  .toSorted(
+    (a, b) =>
+      (new Date(b.partnershipDate) as unknown as number) -
+      (new Date(a.partnershipDate) as unknown as number)
+  )
+
+const projectsEntries = await getCollection(
+  'projects',
+  (entry) => entry.data.published
+)
+const projects = projectsEntries
+  .map((entry) => ({ ...entry.data, slug: entry.slug }))
+  .toSorted(
+    (a, b) =>
+      (new Date(b.date) as unknown as number) -
+      (new Date(a.date) as unknown as number)
+  )
+  .filter((_, idx) => idx < 3)
+---
+
+<Layout
+  title="Agathist | Software Development for Web and Mobile | React, TypeScript"
+>
+  <main>
+    <div class="pb-24 pt-16 lg:pb-32 lg:pt-24">
+      <Banner />
+    </div>
+
+    <section>
+      <div
+        class="gradient-animation basis-1/2 bg-gradient-to-r from-rose-500 via-pink-500 to-orange-400 px-8"
+      >
+        <Container>
+          <div class="lg:flex lg:gap-8">
+            <div
+              class="grow basis-1/2 py-16 text-center text-2xl font-light leading-tight lg:py-32 lg:text-left lg:text-3xl lg:drop-shadow-[4px_4px_4px_rgba(0,0,0,0.25)]"
+            >
+              <div class="flex flex-col gap-6">
+                <p>
+                  We're a fully remote software development agency based in the
+                  United States.
+                </p>
+                <p>
+                  We're ready to build your next great application or improve
+                  one of your existing&nbsp;ones.
+                </p>
+              </div>
+            </div>
+
+            <!--
+              This is the simplest way I could find to achieve the responsive
+              layout for Services I wanted
+
+              Render it twice, hide it when necessary
+            -->
+            <div class="relative hidden basis-1/2 lg:block">
+              <div
+                class="absolute -bottom-1/4 -top-1/4 w-full rounded bg-slate-800 p-8 shadow-lg"
+              >
+                <div class="flex h-full flex-col justify-center">
+                  <Services />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </div>
+
+      <!--
+        This is the simplest way I could find to achieve the responsive
+        layout for Services I wanted
+
+        Render it twice, hide it when necessary
+      -->
+      <div class="bg-gradient-to-b from-slate-800 to-slate-900 lg:hidden">
+        <Container>
+          <div class="py-16 text-xl">
+            <Services />
+          </div>
+        </Container>
+      </div>
+    </section>
+
+    <section class="pt-16 lg:py-32 lg:pt-60">
+      <Container>
+        <div>
+          <h3 class="font-serif text-3xl lg:text-5xl">
+            Valuable Experience &amp; Expertise
+          </h3>
+
+          <div class="max-w-prose py-8 text-xl font-light lg:text-2xl">
+            <p class="leading-relaxed">
+              Our software engineers have decades of experience and are experts
+              in some of today's most widely used technologies
+            </p>
+          </div>
+
+          <div class="lg:mt-20">
+            <TechExpertise />
+          </div>
+        </div>
+      </Container>
+    </section>
+  </main>
+
+  <div
+    class="flex flex-col gap-48 bg-gradient-to-b from-slate-900 via-pink-900 to-slate-900"
+  >
+    <section class="pt-48">
+      <Container>
+        <div class="flex flex-col gap-16">
+          <h3 class="text-center font-serif text-3xl lg:text-5xl">
+            Our Clients
+          </h3>
+
+          <div class="flex justify-center">
+            <div
+              class="flex max-w-prose flex-col gap-4 text-center text-xl leading-relaxed lg:text-2xl lg:leading-relaxed"
+            >
+              <p>
+                We're finding our first clients and delivering value to them as
+                right away.
+              </p>
+              <p>
+                <strong>You</strong> could be our next great client.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap justify-center gap-8 lg:gap-12">
+            {
+              clients.map((client) => {
+                return (
+                  <a
+                    class="flex h-32 w-32 items-center justify-center rounded-xl bg-white/20 p-6 text-3xl transition-colors hover:bg-white/25 lg:h-48 lg:w-48 lg:text-4xl"
+                    href={client.website}
+                    title={client.name}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={client.logoUrl} alt={`${client.name} logo`} />
+                    <span class="sr-only">{client.name}</span>
+                  </a>
+                )
+              })
+            }
+            {
+              ['Your', 'Logo', 'Could', 'Be', 'Next!'].map((text) => (
+                <div class="flex h-32 w-32 items-center justify-center rounded-xl bg-white/20 text-2xl font-bold uppercase text-black mix-blend-screen lg:h-48 lg:w-48 lg:text-3xl">
+                  {text}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <section>
+      <Container>
+        <div class="flex flex-col gap-16">
+          <div class="flex flex-col gap-16 text-center">
+            <h3 class="font-serif text-3xl lg:text-5xl">Recent Projects</h3>
+            <p class="text-xl lg:text-2xl">
+              Learn more about some of our most recent client &amp; open
+              source&nbsp;projects.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-8 sm:grid sm:grid-cols-3">
+            {
+              projects.map((project) => {
+                return (
+                  <a
+                    class="flex flex-col justify-between gap-4 rounded-xl bg-slate-900/20 p-12 transition-colors hover:bg-slate-900/30"
+                    href={`/projects/${project.slug}`}
+                  >
+                    <div class="flex flex-col gap-4">
+                      <h4 class="text-xl font-bold text-pink-500 lg:text-2xl">
+                        {project.title}
+                      </h4>
+
+                      <p class="text-lg text-gray-200 lg:text-xl">
+                        {project.description}
+                      </p>
+                    </div>
+
+                    <p>
+                      <span class="border-b-2 border-b-pink-500 text-lg hover:bg-pink-500 lg:text-xl">
+                        Read more
+                      </span>
+                    </p>
+                  </a>
+                )
+              })
+            }
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <section>
+      <Container>
+        <div class="flex flex-col gap-12 lg:items-center">
+          <div class="flex flex-col gap-4 lg:text-center">
+            <div class="font-serif text-3xl lg:text-5xl">Contact Us</div>
+
+            <p class="text-xl md:text-2xl">
+              Fill out the form below or send us an email at <Link
+                href="mailto:hello@agath.ist"
+              >
+                hello@agath.ist
+              </Link>
+            </p>
+          </div>
+
+          <div class="w-full lg:w-1/2">
+            <ContactUsForm client:visible />
+          </div>
+        </div>
+      </Container>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .gradient-animation {
+    background-size: 300%;
+    animation: move-gradient 10s ease infinite;
+  }
+
+  @keyframes move-gradient {
+    0%,
+    100% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 100% 0%;
+    }
+  }
+</style>

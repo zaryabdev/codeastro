@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content'
+import Container from '../components/Container.astro'
+import PageHeading from '../components/PageHeading.astro'
+import Prose from '../components/Prose.astro'
+import Layout from '../layouts/Layout.astro'
+import PageStandard from '../layouts/PageStandard.astro'
+import Teammate from '../components/Teammate.astro'
+
+const teamEntries = await getCollection('team', (entry) => {
+  // If we are in PROD, hide the unpublished teammates
+  if (import.meta.env.PROD) return entry.data.published
+
+  return true
+}).then((entries) => entries.toSorted((a, b) => a.data.order - b.data.order))
+---
+
+<Layout title="About | Agathist">
+  <PageStandard>
+    <Container>
+      <div class="flex flex-col gap-8">
+        <PageHeading>About</PageHeading>
+
+        <section class="flex flex-col gap-16 pb-32">
+          <Prose>
+            <p>You might be asking yourself...</p>
+          </Prose>
+
+          <h2 class="font-serif text-3xl lg:text-5xl">Why "Agathist"?</h2>
+
+          <Prose>
+            <p>
+              "Agathist" comes from the Greek word <em>agathos</em>, meaning
+              "good". An agathist is one who believes that all things trend
+              towards "the good".
+            </p>
+
+            <p>
+              However, do not mistake an agathist for an optimist. This isn't
+              about finding silver linings, glasses half full, or saying things
+              aren't as bad as they seem.
+            </p>
+
+            <p>
+              Agathism is about acknowledging reality, even when it isn't
+              pretty, and doing the work to make it better one action at a time.
+            </p>
+
+            <p>
+              <em>That's</em> how we do things around here.
+            </p>
+          </Prose>
+        </section>
+      </div>
+    </Container>
+
+    <section class="bg-gradient-to-b from-slate-900 via-pink-900 to-slate-900">
+      <Container>
+        <div class="flex flex-col gap-16">
+          <h2 class="font-serif text-3xl lg:text-5xl">Meet our team</h2>
+
+          <div class="flex flex-col gap-16">
+            {teamEntries.map((entry) => <Teammate teammate={entry} />)}
+          </div>
+        </div>
+      </Container>
+    </section>
+  </PageStandard>
+</Layout>

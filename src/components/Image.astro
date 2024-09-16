@@ -1,0 +1,18 @@
+---
+type Props = {
+  alt: string
+  caption?: string
+  src: string
+}
+
+const { alt, caption, src } = Astro.props
+---
+
+<figure class="flex flex-col gap-4">
+  <img alt={alt} src={src} />
+  {
+    caption && (
+      <figcaption class="text-center text-base italic">{caption}</figcaption>
+    )
+  }
+</figure>

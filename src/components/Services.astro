@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content'
+
+const servicesEntries = await getCollection(
+  'services',
+  (entry) => entry.data.published
+)
+const services = [
+  ...servicesEntries
+    .toSorted((a, b) => a.data.order - b.data.order)
+    .map((entry) => ({ slug: entry.slug, title: entry.data.title })),
+  { slug: '', title: 'And more...' },
+]
+---
+
+<div class="flex flex-col gap-8 lg:gap-12">
+  <div class="font-serif text-3xl lg:text-5xl">Let us help you with...</div>
+
+  <ul class="grid grid-cols-2 gap-6 text-2xl font-light">
+    {
+      services.map(({ slug, title }) => {
+        const href = slug ? `/services/${slug}` : '/services'
+
+        return (
+          <li class="flex flex-col justify-end">
+            <a
+              class="block border-b-4 border-b-pink-500 hover:bg-pink-500"
+              href={href}
+            >
+              <div class="p-2">{title}</div>
+            </a>
+          </li>
+        )
+      })
+    }
+  </ul>
+</div>

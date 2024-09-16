@@ -1,0 +1,64 @@
+---
+import { Icon } from 'astro-icon/components'
+import Copyright from './Copyright.astro'
+import Link from './Link.astro'
+import { TOP_LEVEL_NAV_ITEMS } from '../constants'
+
+const socialMedia = [
+  {
+    href: 'https://github.com/agathist',
+    iconName: 'github-logo',
+    title: 'Github',
+  },
+  {
+    href: 'https://twitter.com/agathist_',
+    iconName: 'twitter-logo',
+    title: 'Twitter',
+  },
+  {
+    href: 'https://linkedin.com/company/agathist',
+    iconName: 'linkedin-logo',
+    title: 'LinkedIn',
+  },
+]
+---
+
+<!--
+  We switch to flex-row-reverse so that copyright goes left and nav goes right
+  as the viewport gets larger
+-->
+<footer
+  class="flex flex-col items-center gap-8 p-8 sm:flex-row-reverse sm:items-end sm:justify-between sm:gap-4"
+>
+  <div class="flex flex-col items-center gap-8 sm:items-end sm:gap-6">
+    <div class="flex items-center gap-8">
+      {
+        socialMedia.map(({ href, iconName, title }) => (
+          <a
+            class="block"
+            href={href}
+            title={title}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="sr-only">{href}</span>
+            <Icon
+              class="h-8 w-8 text-rose-400 transition-colors hover:text-pink-500"
+              name={iconName}
+            />
+          </a>
+        ))
+      }
+    </div>
+
+    <nav class="flex flex-wrap justify-evenly gap-6">
+      {
+        TOP_LEVEL_NAV_ITEMS.map((link) => (
+          <Link href={link.href}>{link.text}</Link>
+        ))
+      }
+    </nav>
+  </div>
+
+  <p><Copyright /> Agathist. All Rights Reserved.</p>
+</footer>

@@ -1,0 +1,119 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { getCollection, type CollectionEntry } from 'astro:content'
+import { byEntryDate, formatPostDate } from '../../utils'
+import Layout from '../../layouts/Layout.astro'
+import PageStandard from '../../layouts/PageStandard.astro'
+import Container from '../../components/Container.astro'
+import GradientText from '../../components/GradientText.astro'
+import Link from '../../components/Link.astro'
+import PostH3 from '../../components/PostH3.astro'
+import PostH4 from '../../components/PostH4.astro'
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const postEntries = await getCollection('posts')
+  const postsSorted = postEntries.toSorted(byEntryDate)
+
+  const teamEntries = await getCollection('team')
+  const teamMap: Record<string, CollectionEntry<'team'>> = {}
+
+  teamEntries.forEach((entry) => {
+    teamMap[entry.slug] = entry
+  })
+
+  return postsSorted.map((entry) => {
+    const authorSlug = entry.data.author.slug
+    // Replace the author object with the full entry
+    entry.data.author = teamMap[authorSlug]
+
+    return {
+      params: { slug: entry.slug },
+      props: {
+        entry,
+      },
+    }
+  })
+}
+
+interface Props {
+  entry: CollectionEntry<'posts'> & {
+    data: { author: CollectionEntry<'team'> }
+  }
+}
+
+const props = Astro.props
+const { entry } = props
+const { author, date, description, title } = entry.data
+const { Content } = await entry.render()
+
+const formattedDate = formatPostDate(date)
+---
+
+<Layout
+  author={author.data.name}
+  description={description}
+  title={`${title} | Blog | Agathist`}
+>
+  <PageStandard>
+    <Container>
+      <article class="flex flex-col gap-8">
+        <div class="flex flex-col gap-2 lg:w-3/4">
+          <GradientText>
+            <h2 class="text-6xl font-bold leading-tight">
+              {title}
+            </h2>
+          </GradientText>
+
+          <div class="flex items-baseline gap-2 italic text-gray-200">
+            <div>
+              Written by {author.data.name}
+            </div>
+            <div>&mdash;</div>
+            <div>{formattedDate}</div>
+          </div>
+        </div>
+
+        <div
+          class="post flex max-w-prose flex-col gap-8 leading-chill lg:text-xl lg:leading-chill"
+        >
+          <Content components={{ a: Link, h3: PostH3, h4: PostH4 }} />
+        </div>
+
+        <hr class="my-8 border-slate-600" />
+
+        <div class="flex flex-col gap-6">
+          <p>This post was written by:</p>
+
+          <div class="flex items-center gap-4">
+            {
+              author.data.imgUrl && (
+                <img
+                  class="block w-24 rounded-2xl sm:w-36"
+                  src={author.data.imgUrl}
+                />
+              )
+            }
+
+            <div class="flex grow flex-col gap-1">
+              <div class="text-xl font-bold text-pink-500 sm:text-3xl">
+                {author.data.name}
+              </div>
+
+              <div class="text-gray-200">{author.data.role}</div>
+
+              {
+                author.data.email && (
+                  <div class="flex">
+                    <Link href={`mailto:${author.data.email}`}>
+                      {author.data.email}
+                    </Link>
+                  </div>
+                )
+              }
+            </div>
+          </div>
+        </div>
+      </article>
+    </Container>
+  </PageStandard>
+</Layout>

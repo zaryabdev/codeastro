@@ -1,0 +1,81 @@
+---
+import { Icon } from 'astro-icon/components'
+import Blockquote from './Blockquote.astro'
+import Prose from './Prose.astro'
+import type { CollectionEntry } from 'astro:content'
+import { slugify } from '../utils'
+
+type Props = {
+  teammate: CollectionEntry<'team'>
+}
+
+const { teammate } = Astro.props
+const { imgUrl, name, role, github, twitter, linkedin } = teammate.data
+const { Content } = await teammate.render()
+
+const SOCIALS = [
+  {
+    username: github,
+    title: `${name}'s Github profile`,
+    iconName: 'github-logo',
+    url: `https://github.com/${github}`,
+  },
+  {
+    username: linkedin,
+    title: `${name}'s LinkedIn profile`,
+    iconName: 'linkedin-logo',
+    url: `https://linkedin.com/in/${linkedin}`,
+  },
+  {
+    username: twitter,
+    title: `${name}'s Twitter profile`,
+    iconName: 'twitter-logo',
+    url: `https://twitter.com/${twitter}`,
+  },
+].filter((item) => item.username)
+---
+
+<div class="flex flex-col gap-8 rounded-lg bg-slate-900/50 p-8 md:flex-row">
+  {
+    imgUrl && (
+      <div class="group relative h-48 w-48 shrink-0 grow-0 overflow-hidden rounded-2xl">
+        {/* Decorative color overlay */}
+        <div class="absolute h-full w-full bg-pink-500/20 transition-all group-hover:bg-transparent" />
+
+        <img src={imgUrl} alt={name} />
+      </div>
+    )
+  }
+
+  <div class="flex shrink grow flex-col gap-8">
+    <div class="flex flex-col gap-2">
+      <div class="font-serif text-4xl" id={slugify(name)}>{name}</div>
+
+      <div class="text-xl font-light tracking-wider text-pink-400">
+        {role}
+      </div>
+
+      {
+        SOCIALS.length > 0 && (
+          <div class="flex gap-4">
+            {SOCIALS.map((item) => (
+              <a
+                class="text-rose-400 hover:text-pink-500"
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon class="h-6 w-6" name={item.iconName} />
+                <span class="sr-only">{item.title}</span>
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+
+    <Prose>
+      <Content components={{ blockquote: Blockquote }} />
+    </Prose>
+  </div>
+</div>

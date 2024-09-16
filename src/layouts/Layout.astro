@@ -1,0 +1,91 @@
+---
+import Footer from '../components/Footer.astro'
+import Header from '../components/Header.astro'
+import '../styles/globals.css'
+import '../styles/fonts.css'
+
+interface Props {
+  author?: string
+  description?: string
+  title: string
+}
+
+const DEFAULT_DESCRIPTION =
+  'Agathist is a software development firm with expertise in TypeScript, JavaScript, and React. We build good software with good people.'
+
+const KEYWORDS = [
+  'Web app development',
+  'Mobile app development',
+  'React app development',
+  'React migrations',
+  'React design systems',
+  'React Native app development',
+  'Web development',
+  'JavaScript app development',
+  'TypeScript app development',
+  'JavaScript experts',
+  'TypeScript experts',
+  'Astro app development',
+  'Software development agency',
+  'Software development firm',
+  'Software consultancy',
+  'Software consultants',
+  'Contract software developers',
+  'Contract software engineers',
+]
+
+const { author, description = DEFAULT_DESCRIPTION, title } = Astro.props
+---
+
+<!doctype html>
+<html class="h-full bg-slate-900 font-sans text-white" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={KEYWORDS.join(', ')} />
+    {author && <meta name="author" content={author} />}
+
+    <!-- OpenGraph -->
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="Agathist" />
+    <meta
+      property="og:image"
+      content="https://agath.ist/images/agathist-og-image.png"
+    />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:domain" content="agath.ist" />
+    <meta name="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta
+      name="twitter:image"
+      content="https://agath.ist/images/agathist-og-image.png"
+    />
+
+    <!-- Miscellany -->
+    <meta name="apple-mobile-web-app-title" content="Agathist" />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+  </head>
+
+  <body class="flex min-h-full flex-col">
+    <Header />
+
+    <div class="grow">
+      <slot />
+    </div>
+
+    <div class="pt-48">
+      <Footer />
+    </div>
+  </body>
+</html>

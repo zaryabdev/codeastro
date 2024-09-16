@@ -1,0 +1,29 @@
+---
+import { ContactUsForm } from '../components/ContactUsForm'
+import Container from '../components/Container.astro'
+import PageHeading from '../components/PageHeading.astro'
+import Prose from '../components/Prose.astro'
+import Layout from '../layouts/Layout.astro'
+import PageStandard from '../layouts/PageStandard.astro'
+---
+
+<Layout title="Contact Us | Agathist">
+  <PageStandard>
+    <Container>
+      <div class="flex flex-col gap-8">
+        <PageHeading>Contact Us</PageHeading>
+
+        <div class="flex max-w-prose flex-col gap-8">
+          <Prose>
+            <p>
+              We would love to hear about your next project(s) and see how we
+              might be able to work together.
+            </p>
+          </Prose>
+
+          <ContactUsForm client:visible />
+        </div>
+      </div>
+    </Container>
+  </PageStandard>
+</Layout>
