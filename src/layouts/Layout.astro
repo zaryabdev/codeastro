@@ -11,7 +11,7 @@ interface Props {
 }
 
 const DEFAULT_DESCRIPTION =
-  'Agathist is a software development firm with expertise in TypeScript, JavaScript, and React. We build good software with good people.'
+  'Codeastro is a software development firm with expertise in TypeScript, JavaScript, and React. We build good software with good people.'
 
 const KEYWORDS = [
   'Web app development',
@@ -54,25 +54,25 @@ const { author, description = DEFAULT_DESCRIPTION, title } = Astro.props
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:site_name" content="Agathist" />
+    <meta property="og:site_name" content="Codeastro" />
     <meta
       property="og:image"
-      content="https://agath.ist/images/agathist-og-image.png"
+      content="https://codeastro.net/images/codeastro-og-image.png"
     />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:domain" content="agath.ist" />
+    <meta name="twitter:domain" content="codeastro.net" />
     <meta name="twitter:url" content={Astro.url} />
     <meta property="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta
       name="twitter:image"
-      content="https://agath.ist/images/agathist-og-image.png"
+      content="https://codeastro.net/images/codeastro-og-image.png"
     />
 
     <!-- Miscellany -->
-    <meta name="apple-mobile-web-app-title" content="Agathist" />
+    <meta name="apple-mobile-web-app-title" content="Codeastro" />
 
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
