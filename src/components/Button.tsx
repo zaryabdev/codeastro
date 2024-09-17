@@ -26,7 +26,7 @@ export function Button({
        * according to https://css-tricks.com/making-disabled-buttons-more-inclusive
        */
       aria-disabled={disabled}
-      className="relative rounded bg-rose-400 px-4 py-2 transition-all hover:bg-pink-500 active:top-[1px] aria-disabled:cursor-not-allowed aria-disabled:opacity-80"
+      className="relative rounded bg-cyan-400 px-4 py-2 transition-all hover:bg-cyan-500 active:top-[1px] aria-disabled:cursor-not-allowed aria-disabled:opacity-80"
       onClick={handleClick}
       type={type}
       {...rest}
