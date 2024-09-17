@@ -147,7 +147,7 @@ export function ContactUsForm({
               {errors
                 .filter((err) => err.key === fieldProps.id)
                 .map((err) => (
-                  <div className="text-sm text-pink-500" key={err.message}>
+                  <div className="text-sm text-cyan-500" key={err.message}>
                     {err.message}
                   </div>
                 ))}
@@ -167,7 +167,7 @@ export function ContactUsForm({
       )}
 
       {submitState === 'failure' && (
-        <div className="text-pink-500">
+        <div className="text-cyan-500">
           Sorry about that! Something went wrong while submitting your project.
           Please try again.
         </div>
