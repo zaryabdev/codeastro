@@ -10,5 +10,8 @@ Color Green
 Add section "Our Flow"
 Add more technologies
 
+Icons
 https://icon-sets.iconify.design/
+
 https://www.wess-soft.com/services-agence-web/
+https://www.netguru.com/#design

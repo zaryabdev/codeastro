@@ -1,0 +1,51 @@
+---
+import { Icon } from 'astro-icon/components'
+
+const sortedTechs: { name: string; desc: string; iconName: string }[] = [
+  {
+    name: 'Ideat',
+    desc: 'Identify, shape and validate your idea',
+    iconName: 'search-logo',
+  },
+  {
+    name: 'Design',
+    desc: 'Craft beutiful digital experience across plateforms',
+    iconName: 'design-logo',
+  },
+  {
+    name: 'Develop',
+    desc: 'Bring products to life with world-class engineering',
+    iconName: 'build-logo',
+  },
+  {
+    name: 'Maintain',
+    desc: "Safegaurd your product's quality and reliability",
+    iconName: 'git-logo',
+  },
+  {
+    name: 'Scale',
+    desc: 'Gain flexibility to adjust and expand to fly',
+    iconName: 'earth-logo',
+  },
+]
+---
+
+<ul class="flex flex-wrap justify-center gap-8 lg:gap-12">
+  {
+    sortedTechs.map((data) => {
+      const { name, iconName, desc } = data
+
+      return (
+        <li class="flex h-48 w-48 items-center justify-center rounded-xl">
+          <div class="group flex flex-col items-center gap-4">
+            <Icon class="h-24 w-24 " name={iconName} title={`${name} logo`} />
+            <div class="text-center text-2xl font-medium text-cyan-400">
+              {name}
+            </div>
+            <div class="text-center">{desc}</div>
+          </div>
+        </li>
+      )
+    })
+  }
+</ul>

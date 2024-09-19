@@ -5,6 +5,7 @@ import Container from '../components/Container.astro'
 import Services from '../components/Services.astro'
 import Link from '../components/Link.astro'
 import TechExpertise from '../components/TechExpertise.astro'
+import OurProcess from '../components/OurProcess.astro'
 import Layout from '../layouts/Layout.astro'
 import { getCollection } from 'astro:content'
 
@@ -123,6 +124,34 @@ const projects = projectsEntries
     class="flex flex-col gap-48 bg-gradient-to-b from-slate-900 via-cyan-900 to-slate-900"
   >
     <section class="pt-48">
+      <Container>
+        <div class="flex flex-col gap-16">
+          <h3 class="text-center font-serif text-3xl lg:text-5xl">
+            Leverage our full digital <span class="font-semibold text-cyan-500">
+              product expertise</span
+            >
+          </h3>
+
+          <div class="flex justify-center">
+            <div
+              class="flex max-w-prose flex-col gap-4 text-center text-xl leading-relaxed lg:text-2xl lg:leading-relaxed"
+            >
+              <p>
+                Whether you want to consult an idea, add missing capabilities,
+                quickly expand your team, or hand over a project – we’ve got you
+                covered.
+              </p>
+            </div>
+          </div>
+
+          <div class="lg:mt-20">
+            <OurProcess />
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <section class="pt-32">
       <Container>
         <div class="flex flex-col gap-16">
           <h3 class="text-center font-serif text-3xl lg:text-5xl">
