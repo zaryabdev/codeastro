@@ -1,7 +1,7 @@
 ---
 title: 'React Migrations'
 order: 2
-published: true
+published: false
 ---
 
 Do you have an existing application you want to migrate to React? We can _definitely_ do that.
