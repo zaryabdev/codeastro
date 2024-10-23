@@ -1,34 +1,34 @@
 ---
 date: '2024-03-13T22:21:32.505Z'
-title: 'Stock n Balance'
+title: 'Stock Out'
 description: 'An open-source, Electron-based desktop application designed for managing stock and balance efficiently.'
 published: false
 type: 'OPEN_SOURCE'
 ---
 
-import Image from '../../components/Image.astro'
+import Image from '../../components/Image.astro';
 
 <div class="my-8 flex justify-center">
   <div class="w-2/3">
     <Image
-      alt="A set of Parfour screens, featuring a golfer streaming from the driving range"
-      caption="Shots of Parfour's mobile app"
-      src="/images/parfour-app-shots.png"
+      alt="An image of statistics"
+      caption="An image of statistics"
+      src="/images/statistics.png"
     />
   </div>
 </div>
 
-**"We want to be the Twitch of golf!"**
+**"We built a bridge for small business to enter new tech era!"**
 
-This was the goal of [Parfour](https://www.parfour.com/), to build a live streaming app specifically built for golfers, with the dream of being the place YouTube and TikTok golfers come first for sharing their video content. Lucky for Parfour, [Kyle Anne](/about#kyle-anne-laymon) knows a ton about Twitch, and I know a ton about golf. It was a great match of skills and passions.
+This was the goal of [StockOut](https://stockout.netlify.app/), to build an app that is easily accessible for a common business man. We baked bunch of features required for a business to run and keep track of.
 
-The primary problem we faced was we were starting from scratch. Blank slate. Complete greenfield project. They knew they wanted to achieve the following:
+The primary problem we faced was we were starting from scratch. Blank slate. Complete greenfield project. But we knew we wanted to achieve the following:
 
-- Mobile app for streaming and viewing
-- Web app for viewing
-- Look and feel should be consistent across platforms
+- Desktop app with offline database support
+- Spreadsheet like interface for data gathering
+- Reports and Invoice generation
 
-These goals are right in our wheelhouse. We have years of experience building apps with cross platform consistency. In order to achieve this, we made the following decisions for them:
+These goals are right in our wheelhouse. We have years of experience building apps with React. In order to achieve this, we made the following decisions for them:
 
 - We used a monorepo. One codebase that held both the web and mobile apps, as well as any packages we could use in both applications.
   - Monorepos are great for updates. Less PR syncing when making full stack or cross platform changes. Enables you to move faster, something every start up needs.
@@ -46,7 +46,6 @@ Parfour was such a new company that there were almost no processes in existence,
 
 We implemented PR reviews, a Kanban board for task tracking, and weekly grooming sessions to update and remove tasks that no longer matched our new goals.
 
-Additionally, we offered product insights where we could, both from a UI and a UX perspective. A particularly humorous moment I ([Kyle](/about#kyle-shevlin)) will never forget is when during a product discussion, there suddenly arose the fear that users wouldn't be able to use the app while playing due to their golf gloves.
 
 I assured them, that while golf gloves do inhibit the touch features of a phone, almost all golfers who wear gloves only wear a single one, typically on their non-dominant hand, while playing. Phew! Fear assuaged.
 

@@ -1,0 +1,53 @@
+---
+client: 'agile'
+date: '2024-07-08T16:27:41.975Z'
+description: 'Learn how we helped Step 2 Agility build there Saas product from idea to life in just couple of months.'
+published: true
+slug: 'coming-through-in-the-clutch-for-agility'
+title: 'Coming through in the clutch for Step 2 Agility'
+type: 'CLIENT'
+---
+
+import Image from '../../components/Image.astro';
+
+<div class="my-8">
+  <Image
+    alt="Agile screenshot"
+    caption="Agile screenshot"
+    src="/images/agile-one.png"
+  />
+</div>
+
+Codeastro was able to help out Step 2 Agility in a few key ways:
+
+- Hit the ground running, right away
+
+From day one, we were shipping features and making updates. Some credit is due to Step 2 Agility's other developers. They had a solid codebase and monorepo setup, but it's also a testament to how quickly we're able to figure out how to be effective.
+
+In a short period of time, we built out the rest of the key pages they needed in order to be ready for the event.
+
+- Quickly refactor existing code for reuse
+
+While the codebase was setup well, they're was lots of evidence of junior/volunteer work in there. One of the ways this was evident was how tightly coupled a previous event, the prior year's AI Summit, was to many of their components. In order to get the work done for this year's event, and set them up for success going forward, we needed to quickly decouple those components without rewriting too much of the past.
+
+Fortunately, this is an area we excel in. With our expertise, we were able to quickly decouple many components and update them for both the old event pages, and all the new pages going forward. Step 2 Agility now can reuse these components for years to come, and their more robust and testable as well.
+
+- Improve UI component APIs
+
+Several of their UI components had difficult to use APIs. Where it was possible, without being too invasive, we applied our design system knowledge and experience, and made updates to their components. These improvements were applied across the codebase, reducing lines of code and unnecessary complexity, and improving the developer experience without sacrificing the user's experience.
+
+- Contribute to their mobile app
+
+It wasn't originally the plan, but Codeastro was able to accomplish the web work so quickly that we were able to tackle the React Native work as well. We delivered many of the key screens and features for the mobile app.
+
+Given the event was a multi-day, multi-track conference, one key feature was the ability for attendees to "favorite" sessions and design their own schedule. Users were able to favorite any sessions they liked, view their personal schedule, and create the World's Fair experience _they_ wanted.
+
+- Help fix performance issues
+
+Originally, the main page of the website was really struggling to load. It relied heavily on a third-party CMS for data, which became a bit of a bottleneck for us. I spent some time optimizing the performance of the page.
+
+First, we reduced the size of the payload being returned from `getServerSideProps`. There was some unnecessary and redundant information being fetched. Next, I noticed some API calls that could be parallelized and was able to cut the fetching time in half, speeding up renders. Lastly, I realized we really didn't need to serve this page on the server. The information was essentially static once the World's Fair was under way. So we switched to `getStaticProps`, making the page load almost instantaneously, which vastly improved the experience of the attendees.
+
+---
+
+If you're a company that could benefit from that level of expertise in the short or long-term, let us know. Codeastro is more than capable of getting up to speed right away and contributing from day one. You're going to find that our experience and skills will elevate your existing code to the next level.
